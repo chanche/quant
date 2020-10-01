@@ -50,8 +50,6 @@ stock_list =['HK.00700','HK.01810','HK.01211','HK.03690']
 
 ## 聚宽北上、 南下 交易量数据
 
-from jqdatasdk import *
-auth('18688709107','chan123456')
 
 table = finance.STK_ML_QUOTA
 df_hk  = finance.run_query(query(
