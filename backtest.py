@@ -20,7 +20,7 @@ from pathlib import Path
 
 # 回测类
 class BackTest:
-    def __init__(self, strategy, start, end, code, name, cash = 0.01, commission = 0.0003, benchmarkCode = "HK.00700", bDraw = True):
+    def __init__(self, strategy, start, end, code, name, cash = 0.01, commission = 0.001, benchmarkCode = "HK.00700", bDraw = True):
         self.__cerebro = None
         self.__strategy = strategy
         self.__start = start
