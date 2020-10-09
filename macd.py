@@ -13,6 +13,9 @@ from futu import OpenQuoteContext
 import talib as ta
 from numpy import array
 
+import sys   
+sys.setrecursionlimit(100000)
+
 class Tech_roll(bt.Strategy):
     params =dict(
             myperiod = 120,
@@ -117,7 +120,6 @@ class Tech_roll(bt.Strategy):
 
     def get_macdSignal(self):
         date = self.datas[0].datetime.date(0).isoformat()
-
         HSI_data = self.HSI_data
         idx = HSI_data.index.get_loc(date)
         pdata=self.HSI_data[idx-60+1:idx+1]
@@ -144,13 +146,10 @@ class Tech_roll(bt.Strategy):
         
         
         if signal == 1:
-            print('1 sell-----')
             for stock in self.datas: 
                 print(stock._name)
                 self.close(stock)
         if signal != 0:
-
-            print( ' keep-----')
             return
 
         
@@ -159,9 +158,7 @@ class Tech_roll(bt.Strategy):
         for stock in self.datas:
                             
             pos = self.getposition(stock)
-            print ('len',len(pos))
             if len(pos)>0:
-                print( 'keep  in pos')
                 return
             else:    
                 self.order_target_value(stock,cash*0.9)
@@ -232,14 +229,17 @@ def get_stockdata(stock_list,start_date,end_date):
 
 if __name__ == "__main__":
     
-    start = '2019-10-19'
-    end = '2020-03-05'
+
+    start = '2017-05-19'
+    end = '2020-09-01'
     code = ['HK.00700']
     name = code
     
     df_stock = get_stockdata(code,start,end) 
-    df_HSI = pd.read_csv('HSI.csv',index_col=0)
-    print(df_HSI.head())
+    df_HSI = pd.read_csv('HSI.csv')
+    df_HSI['date']=pd.to_datetime(df_HSI['time_key']) 
+    df_HSI=df_HSI.set_index('date',drop=True)
+
     df_stock = get_stockdata(code,start,end)
     backtest = backtest.BackTest(Tech_roll, start, end, code, name,500000,bDraw = True)
     

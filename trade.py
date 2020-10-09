@@ -1,5 +1,5 @@
 # coding:utf-8
-# 科技股轮动
+# 科技股轮动+北上boll判断
 
 import backtrader as bt
 import backtrader.indicators as bi
@@ -240,9 +240,9 @@ def get_stockdata(stock_list,start_date,end_date):
 
 if __name__ == "__main__":
     
-    start = '2019-01-09'
+    start = '2017-01-09'
     end = '2020-09-05'
-    code = ['HK.00700','HK.03690','HK.01810','HK.01211']
+    code = ['HK.00700']
     name = code
     
     df_stock = get_stockdata(code,start,end) 
